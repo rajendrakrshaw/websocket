@@ -32,26 +32,25 @@
     <script src="https://cdn.jsdelivr.net/npm/laravel-echo/dist/echo.iife.js"></script>
 
     <script>
-        $(document).ready(function() {
-            window.Echo = new Echo({
-                broadcaster: 'pusher',
-                key: '{{ env("PUSHER_APP_KEY") }}',
-                cluster: '{{ env("PUSHER_APP_CLUSTER") }}',
-                wsHost: '127.0.0.1',
-                wsPort: 6001, // Adjust to match your WebSocket server port
-                forceTLS: false, // Adjust according to your setup
-                disableStats: true, // Adjust according to your setup
-                enabledTransports: ['ws', 'flash']
-            });
+      $(document).ready(function() {
+    var pusher = new Pusher('{{ env("PUSHER_APP_KEY") }}', {
+        cluster: '{{ env("PUSHER_APP_CLUSTER") }}',
+        wsHost: window.location.hostname,
+        wsPort: 6001,
+        forceTLS: false, // Adjust according to your setup
+        disableStats: true, // Adjust according to your setup
+        enabledTransports: ['ws', 'wss']  // Adjust based on your setup
+    });
 
-            window.Echo.channel('chat')
-                .listen('message', function(event) {
-                    console.log('hello');
-                    var message = event.message;
-                    var chatMessages = $('#chat-messages');
-                    chatMessages.append('<div>' + message + '</div>');
-                    chatMessages.scrollTop(chatMessages.prop("scrollHeight"));
-                });
+    var channel = pusher.subscribe('chat');
+    channel.bind('message', function(data) {
+        console.log('Received message:', data.message);
+        var message = data.message;
+        var chatMessages = $('#chat-messages');
+        chatMessages.append('<div>' + message + '</div>');
+        chatMessages.scrollTop(chatMessages.prop("scrollHeight"));
+    });
+// });
 
 
 
