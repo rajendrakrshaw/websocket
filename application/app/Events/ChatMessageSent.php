@@ -19,9 +19,11 @@ class ChatMessageSent  implements ShouldBroadcast
      * Create a new event instance.
      */
     public $message;
-    public function __construct($message)
+    public $username;
+    public function __construct($message, $username)
     {
         $this->message = $message;
+        $this->username = $username;
         
     }
     
@@ -42,6 +44,7 @@ class ChatMessageSent  implements ShouldBroadcast
     {
         return [
             'message' => $this->message,
+            'username' => $this->username,
         ];
     }
 
