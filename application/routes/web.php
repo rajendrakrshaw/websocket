@@ -18,14 +18,14 @@ use App\Http\Controllers\ChatController;
 Route::post('/chat/send', [ChatController::class, 'sendMessage']);
 
 
-WebSocketsRouter::webSocket('/my-websocket', \App\WebSockets\MyWebSocketHandler::class);
+WebSocketsRouter::webSocket('/', \App\WebSockets\MyWebSocketHandler::class);
 
 
 // WebSocketsRouter::webSocket('/my-websocket', \App\WebSockets\MyWebSocketHandler::class);
-Route::get('/chat', function () {
-    return view('chat');
-});
+// Route::get('/', function () {
+//     return view('chat');
+// });
 
-Route::get('/', function () {
+Route::get('/w', function () {
     return view('welcome');
 });
